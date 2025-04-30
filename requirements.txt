@@ -1,0 +1,8 @@
+matplotlib
+seaborn
+numpy
+shutup
+torch
+torchinfo
+tqdm
+pyyaml
