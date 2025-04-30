@@ -6,3 +6,6 @@ torch
 torchinfo
 tqdm
 pyyaml
+numpy
+pandas
+simple-term-menu
