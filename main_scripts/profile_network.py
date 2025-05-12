@@ -116,7 +116,7 @@ if __name__ == '__main__':
     code_book = config['code_book']
     quantizers = config['quantizers']
     dec_code = config['dec_code']
-    enc_code = 2
+    enc_code = 1
     model = prepare_model(code_book = code_book, quantizers = quantizers, dec_code = dec_code, enc_code = 2)
     model.eval()
     model = model.to(device_)

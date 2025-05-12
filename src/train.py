@@ -295,7 +295,7 @@ class Train(nn.Module):
                     # path to save best model
                     if valid_loss < self.best_valid:
                         self.best_valid = valid_loss
-                        save_model(self.model, self.path,"best_model", train_total_loss, valid_total_loss, QAT = self.QAT)
+                        save_model(self.model, self.path,"best_model", train_total_loss, valid_total_loss)
 
             print(f"\t Train loss = {sum(train_epoch_loss)/len(train_epoch_loss):.05}, \
                     Validation Loss = {sum(valid_epoch_loss)/len(valid_epoch_loss):.05}")
@@ -341,7 +341,7 @@ class Train(nn.Module):
 
 
 
-def save_model(model, path, arch_id, train_loss, valid_loss, save_np = False, QAT = False):
+def save_model(model, path, arch_id, train_loss, valid_loss, save_np = False):
     
     # Ensure the directory exists
     if not os.path.exists(path):

@@ -37,7 +37,7 @@ window_size = 800
 n_channels = 36
 workers_num_ = 8
 dec_code = config['dec_code']
-enc_code = 2 
+enc_code = 1 
 CUSTOM = False
 
 def aero_DataLoader(device: str, dataset: torch.utils.data.Dataset, workers_num: int, batch_size: int):

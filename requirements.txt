@@ -9,3 +9,5 @@ pyyaml
 numpy
 pandas
 simple-term-menu
+einx
+einops

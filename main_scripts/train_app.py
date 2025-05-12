@@ -26,7 +26,6 @@ workers_num_ = 4
 local_path_train = "../mid_results/train-set/*"  # These two paths are relative and are setup in the AeroSense guide
 local_path_valid = "../mid_results/valid-set/*"
 
-
 save_config = ModelConfig()
 
 def init_args():
@@ -86,8 +85,8 @@ if __name__ == '__main__':
     save_config.disc_bool = True        # this boolean is to select to train with a discriminator, needs to be specified in the Train() call, by default False
     save_config.gamma = 1               # weight for discriminator loss
     save_config.eta = 1                 # weight for RVQ loss
-    save_config.enc_code = 2            # IMPORTANT: If using enc_code 1, you will use the encoder with Batchnorm
-    #                                                If using enc_code 2, you will use the encoder without Batchnorm
+    save_config.enc_code = 1            # IMPORTANT: If using enc_code 0, you will use the encoder with Batchnorm
+    #                                                If using enc_code 1, you will use the encoder without Batchnorm
 
     save_config.dec_code = 3            # IMPORTANT: This is for the choice of decoder architecture. Cases: - = 1 is Original Decoder
     #                                                                                                       - = 2 is slightly altered decoder with channelwise layer
@@ -117,7 +116,6 @@ if __name__ == '__main__':
     run_name = "PRELU" + appendix
    
     path_to_save_losses = "../mid_results/losses_csv"
-
     unique_run_name = run_name
 
     path_to_save_model = "../mid_results/models/" + unique_run_name
@@ -137,7 +135,7 @@ if __name__ == '__main__':
                     dec_code=save_config.dec_code, enc_code=save_config.enc_code)
     
     summary(model, input_size = (1, 36, window_size), verbose = 1, depth = 5)
-    
+
     
     #train metrics
     tot_train_time = []
@@ -169,6 +167,7 @@ if __name__ == '__main__':
     tot_train_time.append(train_time)
     tot_train_loss.append(train_loss)
     tot_valid_loss.append(valid_loss)
+
 
 
 
