@@ -6,7 +6,7 @@ EdgeCodec: Onboard Lightweight High Fidelity Neural Compressor with Vector Quant
 On this git you will find the essentials to _EdgeCodecs_ structure, training and evaluation as described in the [paper](https://arxiv.org/abs/2507.06040). _EdgeCodec_ relies on [lucidrains vector-quantize-pytorch](https://github.com/lucidrains/vector-quantize-pytorch) repository for the residual vector quantizer implementation.
 
 <div style="background-color: white; padding: 10px; display: inline-block;">
-  <img src="figures/full_detail_merged_model.png" alt="Example Image" width="700">
+  <img src="figures/full_detail_model.png" alt="Example Image" width="700">
 </div>
 
 
