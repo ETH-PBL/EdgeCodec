@@ -1,0 +1,13 @@
+matplotlib
+seaborn
+numpy
+shutup
+torch
+torchinfo
+tqdm
+pyyaml
+numpy
+pandas
+simple-term-menu
+einx
+einops
