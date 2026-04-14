@@ -3,25 +3,14 @@ import warnings
 warnings.filterwarnings(
     "ignore", message=".*`torch.cuda.amp.autocast.*` is deprecated.*"
 )
-
-import torch.onnx
 import torch
-import torch.nn as nn
-from torchinfo import summary
-import numpy as np
-import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader
 import sys
-import os
-import time
-import seaborn as sns
+
 sys.path.append("../src")
 from models import AutoEncoder
-from data_management import AeroDataset
-from train import plot_double
-from criterion import ReconstructionLossMixed
+from utils import AeroDataset, inference_with_n_quantizer
 import json
-# from codebook_index_lookup import inference_with_n_quantizer
 
 valid_path = "../mid_results/valid-set/*"
 
@@ -29,8 +18,8 @@ valid_path = "../mid_results/valid-set/*"
 This file is used for evaluations of models.
 """
 
-model_path = '' # path to a .pt file
-path_to_config = '' #  path to a .json file
+model_path = ""  # path to a .pt file
+path_to_config = ""  #  path to a .json file
 
 with open(path_to_config, "r") as f:
     config = json.load(f)
@@ -111,7 +100,7 @@ def compute_center_error(model, dataloader, device="cpu"):
 
             total_error += percentage_error.sum().item()
             total_sq_error += ((output_center - input_center) ** 2).sum().item()
-            total_input_sq += (input_center ** 2).sum().item()
+            total_input_sq += (input_center**2).sum().item()
             total_elements += (
                 percentage_error.numel()
             )  # this is for batches, otherwise could just use 512
@@ -122,18 +111,17 @@ def compute_center_error(model, dataloader, device="cpu"):
     return avg_error, nmse_error, mse_error
 
 
-if __name__ == "__main__": 
-
-    device_ = 'cpu' # torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+if __name__ == "__main__":
+    device_ = "cpu"  # torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
     model = AutoEncoder(
-        arch_id="ss00", 
-        c_in=n_channels, 
-        RVQ=True, 
-        codebook_size=code_book, 
-        quantizers=quantizers, 
-        dec_code=dec_code, 
-        enc_code=enc_code
+        arch_id="ss00",
+        c_in=n_channels,
+        RVQ=True,
+        codebook_size=code_book,
+        quantizers=quantizers,
+        dec_code=dec_code,
+        enc_code=enc_code,
     )
 
     checkpoint = torch.load(model_path, map_location=device_)
@@ -145,16 +133,18 @@ if __name__ == "__main__":
         print(f"State dict loaded directly from {model_path}")
 
     model.eval()
-    
-    aero_dataset_valid = AeroDataset(valid_path, device = device_)
 
-    aero_dl_valid = aero_DataLoader(device= device_, 
-                                    dataset= aero_dataset_valid, 
-                                    workers_num=workers_num_, 
-                                    batch_size=128)
-    
+    aero_dataset_valid = AeroDataset(valid_path, device=device_)
+
+    aero_dl_valid = aero_DataLoader(
+        device=device_,
+        dataset=aero_dataset_valid,
+        workers_num=workers_num_,
+        batch_size=128,
+    )
 
     avgerr, nmse_error, mse_error = compute_center_error(model, aero_dl_valid, device_)
     print("Average error:", avgerr)
     print("Normalized MSE (NMSE) of model:", nmse_error)
     print("MSE per element:", mse_error)
+
